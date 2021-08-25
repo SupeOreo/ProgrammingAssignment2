@@ -27,3 +27,21 @@ makeCacheMatrix <- function(mat = matrix()) {
          set.inverse = set.inverse,
          get.inverse = get.inverse)
 }
+
+
+cacheSolve <- function(cached.mat, ...) {
+    # get the stored inverse
+    inverse <- cached.mat$get.inverse()
+    # if it exists return it
+    if(!is.null(inverse)) {
+        message("getting cached inverse")
+        return(inverse)
+    }
+    # else calculate, store and return it
+    raw.mat <- cached.mat$get()
+    inverse <- solve(raw.mat, ...)
+    cached.mat$set.inverse(inverse)
+    
+    # returns the inverse
+    inverse
+}
